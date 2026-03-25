@@ -21,3 +21,6 @@ build/
 Thumbs.db
 
 src/db/
+
+cat > .gitignore << 'EOF'
+EOF
