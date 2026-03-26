@@ -1,24 +1,23 @@
-import express from "express";
-import cors from "cors";
-import cookieParser from "cookie-parser";
+import express from 'express'
+import cors from 'cors'
+import { blogRouter } from './routes/blog.routes.js'
+import { teamRouter } from './routes/team.routes.js'
+import { errorHandler } from './middleware/errorHandler.js'
 
-const app = express();
+const app = express()
 
-app.use(cookieParser());
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  }),
-);
-app.use(express.json({ limit: "256kb" }));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
+app.use(cors({
+  origin:      'http://localhost:3000',
+  credentials: true,
+}))
+app.use(express.json({ limit: '256kb' }))
+app.use(express.urlencoded({ extended: true }))
 
-app.get("/login", (req, res) => {
-  res
-    .setHeader("Access-Control-Allow-Origin", "http://localhost:3000")
-    .send("Welcome back, Smeet");
-});
+app.use('/api/blog', blogRouter)
+app.use('/api/team', teamRouter)
 
-export { app };
+app.get('/health', (req, res) => res.json({ status: 'ok' }))
+
+app.use(errorHandler)
+
+export { app }
