@@ -1,18 +1,18 @@
-import { Router } from 'express'
+import { Router } from "express";
 import {
   createBlog,
   getAllBlogs,
   getBlogById,
   updateBlog,
   deleteBlog,
-} from '../controllers/blog.controller.js'
+} from "../controllers/blog.controller.js";
 
-const router = Router()
+const router = Router();
 
-router.post('/',     createBlog)
-router.get('/',      getAllBlogs)
-router.get('/:id',   getBlogById)
-router.patch('/:id', updateBlog)
-router.delete('/:id',deleteBlog)
+router.post("/", createBlog);
+router.get("/", getAllBlogs);
+router.get("/:id", getBlogById);
+router.patch("/:id", updateBlog);
+router.delete("/:id", deleteBlog);
 
-export { router as blogRouter }
+export { router as blogRouter };
