@@ -1,64 +1,24 @@
-import mongoose, { Schema } from 'mongoose'
+import mongoose, { Schema } from "mongoose";
 
 const missionSchema = new Schema(
   {
     missionId: {
-      type:     String,
+      type: String,
       required: true,
-      unique:   true,
-      trim:     true,   // e.g. "HAB-01", "CANSAT-01"
+      unique: true,
     },
-    missionName: {
-      type:     String,
-      required: true,
-      trim:     true,
-    },
-    missionType: {
-      type:     String,
-      enum:     ['HAB', 'CANSAT', 'CUBESAT'],
-      required: true,
-    },
-    description: {
-      type:    String,
-      default: null,
-    },
+    missionName: { type: String, required: true },
+    description: { type: String, default: null },
     status: {
-      type:    String,
-      enum:    ['upcoming', 'active', 'completed', 'failed'],
-      default: 'upcoming',
+      type: String,
+      enum: ["upcoming", "active", "completed", "failed"],
+      default: "upcoming",
     },
-    launchDate: {
-      type:    Date,
-      default: null,
-    },
-    landingDate: {
-      type:    Date,
-      default: null,
-    },
-    maxAltitude: {
-      type:    Number,   // metres
-      default: null,
-    },
-    location: {
-      type:    String,   // launch site
-      default: null,
-    },
-    teamMembers: [
-      {
-        type: Schema.Types.ObjectId,
-        ref:  'Team',
-      }
-    ],
-    coverImage: {
-      type:    String,   // URL
-      default: null,
-    },
-    isPublished: {
-      type:    Boolean,
-      default: false,
-    },
+    launchDate: { type: Date, default: null },
+    location: { type: String, default: null },
+    coverImage: { type: String, default: null },
   },
-  { timestamps: true }
-)
+  { timestamps: true },
+);
 
-export const Mission = mongoose.model('Mission', missionSchema)
+export const Mission = mongoose.model("Mission", missionSchema);
