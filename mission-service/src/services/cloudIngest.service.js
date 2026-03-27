@@ -1,14 +1,14 @@
 import { db } from "../config/firebase.js";
 import { savePacketService } from "./ingest.service.js";
 
-let lastPacketNo = 0; 
+let lastPacketNo = 0;
 
 const fetchFromFirebase = async () => {
   try {
     const snapshot = await db
       .collection("packets")
-      .where("packetNo", ">", lastPacketNo)
-      .orderBy("packetNo")
+      .where("PACKET_NO", ">", lastPacketNo)
+      .orderBy("PACKET_NO", "asc")
       .limit(50)
       .get();
 
@@ -17,18 +17,23 @@ const fetchFromFirebase = async () => {
       return;
     }
 
-    const packets = [];
+    const packets = snapshot.docs.map((doc) => doc.data());
 
-    snapshot.forEach((doc) => {
-      packets.push(doc.data());
-    });
+    let maxPacketNo = lastPacketNo;
 
     for (const packet of packets) {
       await savePacketService(packet);
-      lastPacketNo = packet.packetNo;
+
+      if (packet.PACKET_NO > maxPacketNo) {
+        maxPacketNo = packet.PACKET_NO;
+      }
     }
 
-    console.log(`[INGEST] ${packets.length} packets saved`);
+    lastPacketNo = maxPacketNo;
+
+    console.log(
+      `[INGEST] ${packets.length} packets saved (last: ${lastPacketNo})`,
+    );
   } catch (error) {
     console.error("[INGEST] Firebase fetch error:", error.message);
   }
