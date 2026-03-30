@@ -7,11 +7,10 @@ let lastPacketNo = 0;
 
 const saveFirebasePacket = async (packet) => {
   const point = new Point("telemetry")
-    // tags — used for filtering in queries
+
     .tag("hab_id", packet.HAB_ID)
     .tag("status_flag", packet.STATUS_FLAG)
 
-    // fields — actual sensor values
     .stringField("mission_time", packet.MISSION_TIME)
     .stringField("timestamp", packet.TIMESTAMP)
     .floatField("temperature", packet.TEMPERATURE)
@@ -31,7 +30,7 @@ const saveFirebasePacket = async (packet) => {
   writeApi.writePoint(point);
   await writeApi.flush();
 
-  // broadcast to WebSocket clients (live dashboard)
+
   broadcast({
     habId: packet.HAB_ID,
     missionTime: packet.MISSION_TIME,
@@ -86,5 +85,3 @@ const fetchFromFirebase = async () => {
 };
 
 export { fetchFromFirebase };
-
-

@@ -15,7 +15,7 @@ app.use(
 app.use(express.json({ limit: "256kb" }));
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/dashboard", dashboard);
+app.use("/leap/api/mission-HAB/dashboard", dashboard);
 
 app.get("/health", (req, res) => res.json({ status: "ok" }));
 
