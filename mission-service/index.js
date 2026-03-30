@@ -1,7 +1,6 @@
 import { writeApi } from "./src/config/influx.js";
 import { Point } from "@influxdata/influxdb-client";
 
-// Write a test point
 const testPoint = new Point("test")
   .tag("source", "connection-test")
   .floatField("value", 1.0);
